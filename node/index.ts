@@ -1,9 +1,10 @@
-import type { ClientsConfig, ServiceContext, RecorderState } from '@vtex/api'
+import type { ClientsConfig } from '@vtex/api'
 import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
 import { status } from './middlewares/status'
 import { validate } from './middlewares/validate'
+import { validateBasketId } from './middlewares/validateBasketId'
 
 const TIMEOUT_MS = 800
 
@@ -30,16 +31,6 @@ const clients: ClientsConfig<Clients> = {
   },
 }
 
-declare global {
-  // We declare a global Context type just to avoid re-writing ServiceContext<Clients, State> in every handler and resolver
-  type Context = ServiceContext<Clients, State>
-
-  // The shape of our State object found in `ctx.state`. This is used as state bag to communicate between middlewares.
-  interface State extends RecorderState {
-    code: number
-  }
-}
-
 // Export a service that defines route handlers and client options.
 export default new Service({
   clients,
@@ -48,5 +39,12 @@ export default new Service({
     status: method({
       GET: [validate, status],
     }),
+    basketsItems: method({
+      POST: validateBasketId
+    }),
+    basketsItemsChange: method({
+      POST: validateBasketId
+    }),
+    
   },
 })

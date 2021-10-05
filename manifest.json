@@ -1,10 +1,10 @@
 {
-  "name": "service-example",
-  "vendor": "vtex",
-  "version": "0.2.0",
-  "title": "Service Example",
-  "description": "Reference app for VTEX IO Services",
-  "mustUpdateAt": "2018-01-04",
+  "name": "livescale-server-vtex-shopping-api",
+  "vendor": "motorolatemplateeu",
+  "version": "0.0.1",
+  "title": "Livescale VTEX Server Shopping API",
+  "description": "Implementation of basic routes for livescale API",
+  "mustUpdateAt": "2021-10-05",
   "categories": [],
   "dependencies": {},
   "builders": {

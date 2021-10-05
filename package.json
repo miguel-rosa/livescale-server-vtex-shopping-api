@@ -1,5 +1,5 @@
 {
-  "name": "service-example",
+  "name": "livescale-server-vtex-shopping-api",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

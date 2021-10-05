@@ -9,6 +9,18 @@
     "status": {
       "path": "/_v/status/:code",
       "public": true
+    },
+    "baskets": {
+      "path": "/_v/baskets",
+      "public": true
+    },
+    "basketsItems": {
+      "path": "/_v/baskets/:basketId/items",
+      "public": true
+    },
+    "basketsItemsChange": {
+      "path": "/_v/baskets/:basketId/items/:itemId",
+      "public": true
     }
   }
 }

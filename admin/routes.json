@@ -1,0 +1,6 @@
+{
+  "admin.app.livescale-server-vtex-shopping-api-admin": {
+    "component": "LiveScaleAuthCredentials",
+    "path": "/admin/app/livescale/auth"
+  }
+}

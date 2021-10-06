@@ -16,6 +16,17 @@ if (!global.metrics) {
 declare global {
   type Context = ServiceContext<Clients, State>
 
+  type BasketItemRequest = {
+    id: string;
+    quantity: number;
+  }  
+
+  type BasketItemResponse = {
+    id: string;
+    quantity: number;
+    price: number;
+    listPrice: number,
+  }  
   interface State extends RecorderState {
     basketId: string | string[];
     code: number;

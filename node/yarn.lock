@@ -4147,10 +4147,6 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-"motorolatemplateeu.livescale-server-vtex-shopping-api@https://jpbl--motorolauk.myvtex.com/_v/private/typings/linked/v1/motorolatemplateeu.livescale-server-vtex-shopping-api@0.0.1+build1633460799/public/@types/motorolatemplateeu.livescale-server-vtex-shopping-api":
-  version "0.0.0"
-  resolved "https://jpbl--motorolauk.myvtex.com/_v/private/typings/linked/v1/motorolatemplateeu.livescale-server-vtex-shopping-api@0.0.1+build1633460799/public/@types/motorolatemplateeu.livescale-server-vtex-shopping-api#3e8457e967a9b30d606bdc6972f3385e8b647cdb"
-
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"

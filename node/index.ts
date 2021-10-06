@@ -2,11 +2,10 @@ import type { ClientsConfig } from '@vtex/api'
 import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
-import { status } from './middlewares/status'
-import { validate } from './middlewares/validate'
 import { validateBasketId } from './middlewares/validateBasketId'
+import { baskets } from "./middlewares/baskets"
 
-const TIMEOUT_MS = 800
+const TIMEOUT_MS = 8000
 
 // Create a LRU memory cache for the Status client.
 // The @vtex/api HttpClient respects Cache-Control headers and uses the provided cache.
@@ -36,11 +35,11 @@ export default new Service({
   clients,
   routes: {
     // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    status: method({
-      GET: [validate, status],
+    baskets: method({
+      POST: baskets
     }),
     basketsItems: method({
-      POST: validateBasketId
+      POST: [validateBasketId, baskets]
     }),
     basketsItemsChange: method({
       POST: validateBasketId

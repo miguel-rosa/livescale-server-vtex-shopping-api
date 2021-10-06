@@ -25,8 +25,8 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "httpstat.us",
-        "path": "*"
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/checkout/*"
       }
     },
     {

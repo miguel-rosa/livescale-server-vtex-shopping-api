@@ -3,51 +3,92 @@ import { ResolverError } from '@vtex/api'
 
 import convertBasketItem from '../utils/conveters/convertBasketItem'
 import convertBasketResponse from '../utils/conveters/convertBasketResponse';
+export default class Baskets {
+  constructor(){}
+  public async create(ctx: Context, next: () => Promise<any>){
+    const {
+      clients: { checkout: checkoutClient },
+      host,
+      req
+    } = ctx
 
-export async function baskets(ctx: Context, next: () => Promise<any>) {
-  const {
-    state: { basketId },
-    clients: { checkout: checkoutClient },
-    req
-  } = ctx
-  
-  const body:BasketItemRequest[] = await json(req);
+    const body:BasketItemRequest[] = await json(req);
 
-  console.log("body", body)
-  console.info('Received code:', basketId)
+    const newOrderFrom = await checkoutClient.newOrderForm();
+    
+    if(!newOrderFrom) {
+      throw new ResolverError('Server could not create the orderForm')
+    }
 
-  const statusResponseNewOrderFrom = await checkoutClient.newOrderForm();
-  
-  if(!statusResponseNewOrderFrom) {
-    throw new ResolverError('Server could not create the orderForm')
+    const {
+      data: {
+        orderFormId
+      }
+    } = newOrderFrom;
+
+    const convertedItems = convertBasketItem(body);
+
+    const updatedOrderForm = await checkoutClient.addItem(orderFormId, convertedItems);
+
+    ctx.body = convertBasketResponse(updatedOrderForm, host);
+
+    await next()
   }
 
-  const {
-    data: {
-      orderFormId
-    }
-  } = statusResponseNewOrderFrom;
+  public async update(ctx: Context, next: () => Promise<any>){
+    const {
+      state: { basketId },
+      clients: { checkout: checkoutClient },
+      host,
+      req
+    } = ctx
 
-  const items = convertBasketItem(body);
+    const body:BasketItemRequest[] = await json(req);
 
-  const statusResponseAddItem = await checkoutClient.addItem(orderFormId, items);
+    const convertedItems = convertBasketItem(body);
 
-  console.log(statusResponseAddItem);
-  ctx.body = convertBasketResponse(statusResponseAddItem);
-  //  ctx.body = statusResponseAddItem;
-  
-  // const {
-  //   headers,
-  //   data,
-  //   status: responseStatus,
-  // } = await statusClient.getStatusWithHeaders(code)
+    const updatedOrderForm = await checkoutClient.addItem(basketId, convertedItems);
 
-  // console.info('Status headers', headers)
-  // console.info('Status data:', data)
+    ctx.body = convertBasketResponse(updatedOrderForm, host);
 
-  // ctx.status = responseStatus
-  // ctx.body = data
-  // ctx.set('Cache-Control', headers['cache-control'])
+    await next()
+  }
 
-  await next()
+  public async updateItem(ctx: Context, next: () => Promise<any>){
+    const {
+      state: { basketId, itemId },
+      clients: { checkout: checkoutClient },
+      host,
+      req
+    } = ctx
+
+    const { quantity } = await json(req);
+
+    const { items: orderFormItems } = await checkoutClient.orderForm(basketId);
+
+    const updatedItems = orderFormItems.map((orderFormItem, index) => orderFormItem.id === itemId ? {index, quantity} : null).filter(orderFormItem => orderFormItem !== null)
+
+    const updatedOrderForm = await checkoutClient.updateItems(basketId, updatedItems);
+
+    ctx.body = convertBasketResponse(updatedOrderForm, host);
+
+    await next()
+  }
+  public async deleteItem(ctx: Context, next: () => Promise<any>){
+    const {
+      state: { basketId, itemId },
+      clients: { checkout: checkoutClient },
+      host
+    } = ctx
+
+    const { items: orderFormItems } = await checkoutClient.orderForm(basketId);
+
+    const updatedItems = orderFormItems.map((orderFormItem, index) => orderFormItem.id === itemId ? {index, quantity:0} : null).filter(orderFormItem => orderFormItem !== null)
+
+    const updatedOrderForm = await checkoutClient.updateItems(basketId, updatedItems);
+
+    ctx.body = convertBasketResponse(updatedOrderForm, host);
+
+    await next()
+  }
 }

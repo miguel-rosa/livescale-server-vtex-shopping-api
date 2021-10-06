@@ -27,8 +27,11 @@ declare global {
     price: number;
     listPrice: number,
   }  
+
+  type Params = string | string[];
   interface State extends RecorderState {
-    basketId: string | string[];
+    basketId: string;
+    itemId: Params;
     code: number;
   }
 

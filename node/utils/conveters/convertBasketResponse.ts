@@ -1,11 +1,11 @@
-export default (orderForm:any) => ({
+export default (orderForm:any, host:string) => ({
     id: orderForm.orderFormId,
-    cart_url: `/checkout/?orderFormId=${orderForm.orderFormId}#/cart`,
+    cart_url: `https://${host}/checkout/?orderFormId=${orderForm.orderFormId}#/cart`,
     items: orderForm.items.map((basketItem:any) => ({
       sku: basketItem.id,
       quantity: basketItem.quantity,
       price: {
-        amount: basketItem.prince,
+        amount: basketItem.price,
         compare_at_amount: undefined,
         currency: orderForm.storePreferencesData.currencyCode,
         unit: "single", 

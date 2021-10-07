@@ -30,10 +30,11 @@ declare global {
   };
 
   type Params = string | string[];
+
   interface State extends RecorderState {
     basketId: string;
-    itemId: Params;
-    code: number;
+    itemId: string;
+    catalogId: number;
   }
 
   interface CustomContext {

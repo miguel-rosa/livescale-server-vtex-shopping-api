@@ -59,6 +59,7 @@
     "class-methods-use-this": "off",
     "no-undef": "off",
     "no-confusing-arrow": "off",
-    "function-paren-newline": "off"
+    "function-paren-newline": "off",
+    "object-curly-newline": "off"
   }
 }

@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "@gocommerce/utils": "^0.7.3",
     "@types/cookie": "^0.4.1",
     "co-body": "^6.0.0",
     "cookie": "^0.4.1",
+    "qs": "^6.10.1",
     "ramda": "^0.25.0"
   },
   "devDependencies": {

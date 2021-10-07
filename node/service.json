@@ -17,6 +17,18 @@
     "updateItemBaskets": {
       "path": "/_v/baskets/:basketId/items/:itemId",
       "public": true
+    },
+    "catalogsList": {
+      "path": "/_v/catalogs",
+      "public": true
+    },
+    "categoriesList": {
+      "path": "/_v/catalogs/:catalogId/categories",
+      "public": true
+    },
+    "productsLists": {
+      "path": "/_v/catalogs/:catalogId/categories/:categoriesId/products",
+      "public": true
     }
   }
 }

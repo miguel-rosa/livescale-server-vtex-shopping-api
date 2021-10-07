@@ -2,9 +2,13 @@ import type { ClientsConfig } from "@vtex/api";
 import { LRUCache, method, Service } from "@vtex/api";
 
 import { Clients } from "./clients";
-import { validateBasketId } from "./middlewares/validateBasketId";
-import { validateItemId } from "./middlewares/validateItemId";
+import validateBasketId from "./middlewares/validateBasketId";
+import validateItemId from "./middlewares/validateItemId";
+import validateCatalogId from "./middlewares/validateCatalogId";
 import Baskets from "./middlewares/baskets";
+import Catalogs from "./middlewares/catalogs";
+import Categories from "./middlewares/categories";
+import Products from "./middlewares/products";
 
 const TIMEOUT_MS = 8000;
 
@@ -26,6 +30,9 @@ const clients: ClientsConfig<Clients> = {
 };
 
 const baskets = new Baskets();
+const catalogs = new Catalogs();
+const categories = new Categories();
+const products = new Products();
 
 export default new Service({
   clients,
@@ -39,6 +46,15 @@ export default new Service({
     updateItemBaskets: method({
       PUT: [validateBasketId, validateItemId, baskets.updateItem],
       DELETE: [validateBasketId, validateItemId, baskets.deleteItem]
+    }),
+    catalogsList: method({
+      GET: catalogs.index
+    }),
+    categoriesList: method({
+      GET: [validateCatalogId, categories.index]
+    }),
+    productsLists: method({
+      GET: products.index
     })
   }
 });

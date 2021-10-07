@@ -2,7 +2,10 @@ import { UserInputError } from "@vtex/api";
 
 import serializeParams from "../utils/serializeParams";
 
-export async function validateItemId(ctx: Context, next: () => Promise<any>) {
+export default async function validateItemId(
+  ctx: Context,
+  next: () => Promise<any>
+) {
   const {
     vtex: {
       route: { params }

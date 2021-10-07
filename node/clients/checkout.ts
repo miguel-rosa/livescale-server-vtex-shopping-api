@@ -49,6 +49,26 @@ export default class Checkout extends JanusClient {
     return queryString;
   };
 
+  private get routes() {
+    const base = "/api/checkout/pub";
+
+    return {
+      addItem: (orderFormId: string, queryString: string) =>
+        `${base}/orderForm/${orderFormId}/items${queryString}`,
+      cancelOrder: (orderFormId: string) =>
+        `${base}/orders/${orderFormId}/user-cancel-request`,
+      updateItems: (orderFormId: string) =>
+        `${base}/orderForm/${orderFormId}/items/update`,
+      checkin: (orderFormId: string) =>
+        `${base}/orderForm/${orderFormId}/checkIn`,
+      orderForm: (orderFormId?: string) =>
+        `${base}/orderForm/${orderFormId ?? ""}`,
+      orders: `${base}/orders`,
+      changeToAnonymousUser: (orderFormId: string) =>
+        `/checkout/changeToAnonymousUser/${orderFormId}`
+    };
+  }
+
   public addItem = (orderFormId: string, items: any) =>
     this.post<OrderForm>(
       this.routes.addItem(orderFormId, this.getChannelQueryString()),
@@ -174,24 +194,4 @@ export default class Checkout extends JanusClient {
       .put<T>(url, data, config)
       .catch(statusToError) as Promise<T>;
   };
-
-  private get routes() {
-    const base = "/api/checkout/pub";
-
-    return {
-      addItem: (orderFormId: string, queryString: string) =>
-        `${base}/orderForm/${orderFormId}/items${queryString}`,
-      cancelOrder: (orderFormId: string) =>
-        `${base}/orders/${orderFormId}/user-cancel-request`,
-      updateItems: (orderFormId: string) =>
-        `${base}/orderForm/${orderFormId}/items/update`,
-      checkin: (orderFormId: string) =>
-        `${base}/orderForm/${orderFormId}/checkIn`,
-      orderForm: (orderFormId?: string) =>
-        `${base}/orderForm/${orderFormId ?? ""}`,
-      orders: `${base}/orders`,
-      changeToAnonymousUser: (orderFormId: string) =>
-        `/checkout/changeToAnonymousUser/${orderFormId}`
-    };
-  }
 }

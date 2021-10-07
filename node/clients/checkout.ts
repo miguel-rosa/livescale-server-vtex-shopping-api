@@ -57,7 +57,7 @@ export default class Checkout extends JanusClient {
     );
 
   public updateItems = (orderFormId: string, orderItems: any) =>
-    this.post(
+    this.post<OrderForm>(
       this.routes.updateItems(orderFormId),
       { orderItems },
       { metric: "checkout-updateItems" }

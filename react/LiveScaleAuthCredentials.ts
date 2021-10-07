@@ -1,3 +1,3 @@
-import { LiveScaleAuthCredentials } from './pages/LiveScaleAuthCredentials'
+import { LiveScaleAuthCredentials } from "./pages/LiveScaleAuthCredentials";
 
-export default LiveScaleAuthCredentials
+export default LiveScaleAuthCredentials;

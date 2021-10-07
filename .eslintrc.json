@@ -7,8 +7,6 @@
   "extends": [
     "plugin:react/recommended",
     "airbnb",
-    "vtex-react",
-    "plugin:prettier/recommended",
     "prettier/@typescript-eslint",
     "prettier/react"
   ],
@@ -20,19 +18,13 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "react/jsx-filename-extension": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "jsx-a11y/anchor-is-valid": "off",
-    "prettier/prettier": [
-      "error"
-    ],
+    "prettier/prettier": ["error"],
     "indent": "off",
     "img-redundant-alt": 0,
     "vtex/prefer-early-return": 0,
@@ -58,16 +50,15 @@
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/no-unnecessary-type-constraint": "off",
     "@typescript-eslint/consistent-type-imports": "off",
-    "quotes": [
-      "error",
-      "double"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
     "array-callback-return": "off",
     "no-unneeded-ternary": "off",
     "no-nested-ternary": "off",
+    "comma-dangle": "off",
+    "class-methods-use-this": "off",
+    "no-undef": "off",
+    "no-confusing-arrow": "off",
+    "function-paren-newline": "off"
   }
 }

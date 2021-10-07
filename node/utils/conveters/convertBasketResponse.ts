@@ -1,4 +1,4 @@
-export default (orderForm: any, host: string) => ({
+export default (orderForm: OrderForm, host: string) => ({
   id: orderForm.orderFormId,
   cart_url: `https://${host}/checkout/?orderFormId=${orderForm.orderFormId}#/cart`,
   items: orderForm.items.map((basketItem: any) => ({
@@ -22,10 +22,11 @@ export default (orderForm: any, host: string) => ({
     }
   })),
   taxation: "NET",
-  sub_total: orderForm.totalizers.find(({ id }: any) => id === "Items").value,
+  sub_total: orderForm.totalizers.find(({ id }: any) => id === "Items")?.value,
   gift_cards_total: 0,
   discounts_total:
-    orderForm.totalizers.find(({ id }: any) => id === "Discounts").value * -1,
+    (orderForm.totalizers.find(({ id }: any) => id === "Discounts")?.value ||
+      0) * -1,
   shipping_total: undefined,
   taxes_total: undefined,
   total: orderForm.value

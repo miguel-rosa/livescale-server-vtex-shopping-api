@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   IOContext,
   MetricsAccumulator,
@@ -69,43 +70,42 @@ declare global {
     slug: string;
   }
 
-
   interface OrderFormItem {
-    id: string
-    name: string
-    detailUrl: string
-    imageUrl: string
-    productRefId: string
-    skuName: string
-    quantity: number
-    uniqueId: string
-    productId: string
-    refId: string
-    ean: string
-    priceValidUntil: string
-    price: number
-    tax: number
-    listPrice: number
-    sellingPrice: number
-    rewardValue: number
-    isGift: boolean
-    parentItemIndex: number | null
-    parentAssemblyBinding: string | null
-    productCategoryIds: string
-    priceTags: string[]
-    measurementUnit: string
+    id: string;
+    name: string;
+    detailUrl: string;
+    imageUrl: string;
+    productRefId: string;
+    skuName: string;
+    quantity: number;
+    uniqueId: string;
+    productId: string;
+    refId: string;
+    ean: string;
+    priceValidUntil: string;
+    price: number;
+    tax: number;
+    listPrice: number;
+    sellingPrice: number;
+    rewardValue: number;
+    isGift: boolean;
+    parentItemIndex: number | null;
+    parentAssemblyBinding: string | null;
+    productCategoryIds: string;
+    priceTags: string[];
+    measurementUnit: string;
     additionalInfo: {
-      brandName: string
-      brandId: string
-      offeringInfo: any | null
-      offeringType: any | null
-      offeringTypeId: any | null
-    }
-    productCategories: Record<string, string>
-    seller: string
-    sellerChain: string[]
-    availability: string
-    unitMultiplier: number
+      brandName: string;
+      brandId: string;
+      offeringInfo: any | null;
+      offeringType: any | null;
+      offeringTypeId: any | null;
+    };
+    productCategories: Record<string, string>;
+    seller: string;
+    sellerChain: string[];
+    availability: string;
+    unitMultiplier: number;
   }
   interface OrderForm {
     orderFormId: string;

@@ -68,32 +68,29 @@ export default class Checkout extends JanusClient {
       metric: "checkout-updateOrderFormCheckin"
     });
 
-  public orderForm = (orderFormId?: string) => {
-    return this.post<OrderForm>(
+  public orderForm = (orderFormId?: string) =>
+    this.post<OrderForm>(
       this.routes.orderForm(orderFormId),
       { expectedOrderFormSections: ["items"] },
       { metric: "checkout-orderForm" }
     );
-  };
 
-  public orderFormRaw = () => {
-    return this.postRaw<OrderForm>(
+  public orderFormRaw = () =>
+    this.postRaw<OrderForm>(
       this.routes.orderForm(),
       { expectedOrderFormSections: ["items"] },
       { metric: "checkout-orderForm" }
     );
-  };
 
-  public newOrderForm = (orderFormId?: string) => {
-    return this.http
+  public newOrderForm = (orderFormId?: string) =>
+    this.http
       .postRaw<OrderForm>(this.routes.orderForm(orderFormId), undefined, {
         metric: "checkout-newOrderForm"
       })
       .catch(statusToError) as Promise<IOResponse<OrderForm>>;
-  };
 
-  public changeToAnonymousUser = (orderFormId: string) => {
-    return this.get(this.routes.changeToAnonymousUser(orderFormId), {
+  public changeToAnonymousUser = (orderFormId: string) =>
+    this.get(this.routes.changeToAnonymousUser(orderFormId), {
       metric: "checkout-change-to-anonymous"
     }).catch(err => {
       // This endpoint is expected to return a redirect to
@@ -102,7 +99,6 @@ export default class Checkout extends JanusClient {
         throw err;
       }
     });
-  };
 
   public orders = () =>
     this.get(this.routes.orders, { metric: "checkout-orders" });

@@ -1,5 +1,6 @@
 {
   "name": "livescale-server-vtex-shopping-api",
+  "author": "João Pedro Beck Land (https://github.com/JoaoPedro1999) && Miguel Rosa (https://github.com/miguel-rosa)",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -24,11 +25,22 @@
     "@types/node": "^12.12.21",
     "@vtex/prettier-config": "^0.3.6",
     "@vtex/danger": "^0.2.7",
-    "eslint": "^7.16.0",
-    "eslint-config-vtex": "^12.9.3",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
     "husky": "^4.3.6",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-vtex": "12.2.1",
+    "eslint-config-vtex-react": "^6.7.10",
+    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-jest": "^24.3.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0"
   }
 }

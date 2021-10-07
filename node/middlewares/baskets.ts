@@ -1,94 +1,113 @@
-import { json } from 'co-body'
-import { ResolverError } from '@vtex/api'
+import { json } from "co-body";
+import { ResolverError } from "@vtex/api";
 
-import convertBasketItem from '../utils/conveters/convertBasketItem'
-import convertBasketResponse from '../utils/conveters/convertBasketResponse';
+import convertBasketItem from "../utils/conveters/convertBasketItem";
+import convertBasketResponse from "../utils/conveters/convertBasketResponse";
+
 export default class Baskets {
-  constructor(){}
-  public async create(ctx: Context, next: () => Promise<any>){
+  public async create(ctx: Context, next: () => Promise<any>) {
     const {
       clients: { checkout: checkoutClient },
       host,
       req
-    } = ctx
+    } = ctx;
 
-    const body:BasketItemRequest[] = await json(req);
+    const body: BasketItemRequest[] = await json(req);
 
     const newOrderFrom = await checkoutClient.newOrderForm();
-    
-    if(!newOrderFrom) {
-      throw new ResolverError('Server could not create the orderForm')
+
+    if (!newOrderFrom) {
+      throw new ResolverError("Server could not create the orderForm");
     }
 
     const {
-      data: {
-        orderFormId
-      }
+      data: { orderFormId }
     } = newOrderFrom;
 
     const convertedItems = convertBasketItem(body);
 
-    const updatedOrderForm = await checkoutClient.addItem(orderFormId, convertedItems);
+    const updatedOrderForm = await checkoutClient.addItem(
+      orderFormId,
+      convertedItems
+    );
 
     ctx.body = convertBasketResponse(updatedOrderForm, host);
 
-    await next()
+    await next();
   }
 
-  public async update(ctx: Context, next: () => Promise<any>){
+  public async update(ctx: Context, next: () => Promise<any>) {
     const {
       state: { basketId },
       clients: { checkout: checkoutClient },
       host,
       req
-    } = ctx
+    } = ctx;
 
-    const body:BasketItemRequest[] = await json(req);
+    const body: BasketItemRequest[] = await json(req);
 
     const convertedItems = convertBasketItem(body);
 
-    const updatedOrderForm = await checkoutClient.addItem(basketId, convertedItems);
+    const updatedOrderForm = await checkoutClient.addItem(
+      basketId,
+      convertedItems
+    );
 
     ctx.body = convertBasketResponse(updatedOrderForm, host);
 
-    await next()
+    await next();
   }
 
-  public async updateItem(ctx: Context, next: () => Promise<any>){
+  public async updateItem(ctx: Context, next: () => Promise<any>) {
     const {
       state: { basketId, itemId },
       clients: { checkout: checkoutClient },
       host,
       req
-    } = ctx
+    } = ctx;
 
     const { quantity } = await json(req);
 
     const { items: orderFormItems } = await checkoutClient.orderForm(basketId);
 
-    const updatedItems = orderFormItems.map((orderFormItem, index) => orderFormItem.id === itemId ? {index, quantity} : null).filter(orderFormItem => orderFormItem !== null)
+    const updatedItems = orderFormItems
+      .map((orderFormItem, index) =>
+        orderFormItem.id === itemId ? { index, quantity } : null
+      )
+      .filter(orderFormItem => orderFormItem !== null);
 
-    const updatedOrderForm = await checkoutClient.updateItems(basketId, updatedItems);
+    const updatedOrderForm = await checkoutClient.updateItems(
+      basketId,
+      updatedItems
+    );
 
     ctx.body = convertBasketResponse(updatedOrderForm, host);
 
-    await next()
+    await next();
   }
-  public async deleteItem(ctx: Context, next: () => Promise<any>){
+
+  public async deleteItem(ctx: Context, next: () => Promise<any>) {
     const {
       state: { basketId, itemId },
       clients: { checkout: checkoutClient },
       host
-    } = ctx
+    } = ctx;
 
     const { items: orderFormItems } = await checkoutClient.orderForm(basketId);
 
-    const updatedItems = orderFormItems.map((orderFormItem, index) => orderFormItem.id === itemId ? {index, quantity:0} : null).filter(orderFormItem => orderFormItem !== null)
+    const updatedItems = orderFormItems
+      .map((orderFormItem, index) =>
+        orderFormItem.id === itemId ? { index, quantity: 0 } : null
+      )
+      .filter(orderFormItem => orderFormItem !== null);
 
-    const updatedOrderForm = await checkoutClient.updateItems(basketId, updatedItems);
+    const updatedOrderForm = await checkoutClient.updateItems(
+      basketId,
+      updatedItems
+    );
 
     ctx.body = convertBasketResponse(updatedOrderForm, host);
 
-    await next()
+    await next();
   }
 }

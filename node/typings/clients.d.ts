@@ -1,15 +1,16 @@
 export interface SearchArgs extends QueryArgs {
-  category: string | null;
-  specificationFilters: string[] | null;
+  catalogId: number | null;
+  categoryId: number | null;
+  specificationFilters?: string[] | null;
   priceRange?: string | null;
-  collection: string | null;
-  salesChannel: string | null;
-  orderBy: string | null;
-  from: number | null;
-  to: number | null;
-  hideUnavailableItems: boolean | null;
-  simulationBehavior: "skip" | "default" | null;
-  completeSpecifications: boolean;
+  collection?: string | null;
+  salesChannel?: string | null;
+  orderBy?: string | null;
+  from?: number | null;
+  to?: number | null;
+  hideUnavailableItems?: boolean | null;
+  simulationBehavior?: "skip" | "default" | null;
+  completeSpecifications?: boolean;
 }
 
 export interface CategoryByIdResponse {
@@ -55,13 +56,36 @@ export interface SearchProduct {
   skuSpecifications?: SkuSpecification[];
 }
 
+export type SallesChannels = {
+  Id: number;
+  Name: string;
+  IsActive: boolean;
+  ProductClusterId?: any;
+  CountryCode: string;
+  CultureInfo: string;
+  TimeZone: string;
+  CurrencyCode: string;
+  CurrencySymbol: string;
+  CurrencyLocale: number;
+  CurrencyFormatInfo: {
+    CurrencyDecimalDigits: number;
+    CurrencyDecimalSeparator: string;
+    CurrencyGroupSeparator: string;
+    CurrencyGroupSize: number;
+    StartsWithCurrencySymbol: boolean;
+  };
+  Origin?: any;
+  Position: number;
+  ConditionRule?: any;
+  CurrencyDecimalDigits?: any;
+};
 interface SelectedFacets {
   key: string;
   value: string;
 }
 
 interface QueryArgs {
-  query: string;
+  query?: string;
   map?: string;
   selectedFacets?: SelectedFacets[];
 }

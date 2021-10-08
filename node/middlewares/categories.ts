@@ -11,7 +11,7 @@ export default class Categories {
     const findCategory = categories.find(category => category.id === catalogId);
 
     if (!findCategory) {
-      throw new UserInputError("Basket Id is missing");
+      throw new UserInputError("Catalog id is missing or wrong");
     }
 
     ctx.body = convertCategories(findCategory.children);

@@ -11,8 +11,7 @@ import { stringify } from "qs";
 import {
   SearchArgs,
   SearchProduct,
-  CategoryTreeResponse,
-  CategoryByIdResponse
+  CategoryTreeResponse
 } from "../typings/clients";
 import { searchEncodeURI } from "../utils/search";
 
@@ -27,7 +26,7 @@ export default class Search extends JanusClient {
   // eslint-disable-next-line no-unused-vars
   private searchEncodeURI: (account: string) => string;
 
-  private base = "api/catalog_system/";
+  private base = "api/catalog_system";
 
   private addCompleteSpecifications = (url: string) => {
     if (!url.includes("?")) {
@@ -38,14 +37,11 @@ export default class Search extends JanusClient {
   };
 
   private get routes() {
-    const base = "api/catalog_system/";
     return {
       products: (args: SearchArgs) => this.productSearchUrl(args),
       categories: (treeLevel: number) =>
-        `${base}/pub/category/tree/${treeLevel}/`,
-      getCategoryChildren: (id: number) =>
-        `${base}/pub/category/categories/children?id=${id}`,
-      category: (id: string | number) => `${base}/pub/category/${id}`
+        `${this.base}/pub/category/tree/${treeLevel}/`,
+      salesChannels: () => `${this.base}/pvt/saleschannel/list`
     };
   }
 
@@ -54,10 +50,8 @@ export default class Search extends JanusClient {
       ...options,
       headers: {
         ...options?.headers,
-        ...(ctx.storeUserAuthToken
-          ? { VtexIdclientAutCookie: ctx.storeUserAuthToken }
-          : null),
-        "x-vtex-user-agent": ctx.userAgent
+        "x-vtex-user-agent": ctx.userAgent,
+        VtexIdclientAutCookie: ctx.adminUserAuthToken ?? ctx.authToken ?? ""
       }
     });
     this.searchEncodeURI = searchEncodeURI(ctx.account);
@@ -73,21 +67,15 @@ export default class Search extends JanusClient {
       metric: "search-categories"
     });
 
-  public getCategoryChildren = (id: number) =>
-    this.get<Record<string, string>>(this.routes.getCategoryChildren(id), {
-      metric: "search-category-children"
-    });
-
-  public category = (id: string | number) =>
-    this.get<CategoryByIdResponse>(this.routes.category(id), {
-      metric: "search-category"
+  public salesChannels = () =>
+    this.get(this.routes.salesChannels(), {
+      metric: "sales-channels"
     });
 
   private get = <T = any>(url: string, config: RequestConfig = {}) => {
     const segmentData: SegmentData | undefined = (this
       .context! as CustomIOContext).segment;
     const { channel: salesChannel = "" } = segmentData || {};
-
     config.params = {
       ...config.params,
       ...(!!salesChannel && { sc: salesChannel })
@@ -99,7 +87,8 @@ export default class Search extends JanusClient {
 
   private productSearchUrl = ({
     query = "",
-    category = "",
+    catalogId = 0,
+    categoryId = 0,
     orderBy = "",
     from = 0,
     to = 9,
@@ -110,8 +99,8 @@ export default class Search extends JanusClient {
       this.searchEncodeURI(decodeURIComponent(query || "").trim())
     );
     let url = `${this.base}/pub/products/search/${sanitizedQuery}?`;
-    if (category && !query) {
-      url += `&fq=C:/${category}/`;
+    if (catalogId && categoryId && !query) {
+      url += `&fq=C:/${catalogId}/${categoryId}`;
     }
     if (orderBy) {
       url += `&O=${orderBy}`;

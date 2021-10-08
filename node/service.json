@@ -26,8 +26,12 @@
       "path": "/_v/catalogs/:catalogId/categories",
       "public": true
     },
-    "productsLists": {
-      "path": "/_v/catalogs/:catalogId/categories/:categoriesId/products",
+    "productsList": {
+      "path": "/_v/catalogs/:catalogId/categories/:categoryId/products",
+      "public": true
+    },
+    "salesChannelsList": {
+      "path": "/_v/sales-channels",
       "public": true
     }
   }

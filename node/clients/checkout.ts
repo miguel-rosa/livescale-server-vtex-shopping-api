@@ -5,7 +5,6 @@ import {
   IOResponse,
   IOContext
 } from "@vtex/api";
-import { AxiosError } from "axios";
 
 import { checkoutCookieFormat, statusToError } from "../utils";
 
@@ -55,17 +54,10 @@ export default class Checkout extends JanusClient {
     return {
       addItem: (orderFormId: string, queryString: string) =>
         `${base}/orderForm/${orderFormId}/items${queryString}`,
-      cancelOrder: (orderFormId: string) =>
-        `${base}/orders/${orderFormId}/user-cancel-request`,
       updateItems: (orderFormId: string) =>
         `${base}/orderForm/${orderFormId}/items/update`,
-      checkin: (orderFormId: string) =>
-        `${base}/orderForm/${orderFormId}/checkIn`,
       orderForm: (orderFormId?: string) =>
-        `${base}/orderForm/${orderFormId ?? ""}`,
-      orders: `${base}/orders`,
-      changeToAnonymousUser: (orderFormId: string) =>
-        `/checkout/changeToAnonymousUser/${orderFormId}`
+        `${base}/orderForm/${orderFormId ?? ""}`
     };
   }
 
@@ -83,21 +75,9 @@ export default class Checkout extends JanusClient {
       { metric: "checkout-updateItems" }
     );
 
-  public updateOrderFormCheckin = (orderFormId: string, checkinPayload: any) =>
-    this.post(this.routes.checkin(orderFormId), checkinPayload, {
-      metric: "checkout-updateOrderFormCheckin"
-    });
-
   public orderForm = (orderFormId?: string) =>
     this.post<OrderForm>(
       this.routes.orderForm(orderFormId),
-      { expectedOrderFormSections: ["items"] },
-      { metric: "checkout-orderForm" }
-    );
-
-  public orderFormRaw = () =>
-    this.postRaw<OrderForm>(
-      this.routes.orderForm(),
       { expectedOrderFormSections: ["items"] },
       { metric: "checkout-orderForm" }
     );
@@ -108,20 +88,6 @@ export default class Checkout extends JanusClient {
         metric: "checkout-newOrderForm"
       })
       .catch(statusToError) as Promise<IOResponse<OrderForm>>;
-
-  public changeToAnonymousUser = (orderFormId: string) =>
-    this.get(this.routes.changeToAnonymousUser(orderFormId), {
-      metric: "checkout-change-to-anonymous"
-    }).catch(err => {
-      // This endpoint is expected to return a redirect to
-      // the user, so we can ignore the error if it is a 3xx
-      if (!err.response || /^3..$/.test((err as AxiosError).code ?? "")) {
-        throw err;
-      }
-    });
-
-  public orders = () =>
-    this.get(this.routes.orders, { metric: "checkout-orders" });
 
   protected get = <T>(url: string, config: RequestConfig = {}) => {
     config.headers = {
@@ -167,31 +133,5 @@ export default class Checkout extends JanusClient {
     return this.http.delete<T>(url, config).catch(statusToError) as Promise<
       IOResponse<T>
     >;
-  };
-
-  protected patch = <T>(
-    url: string,
-    data?: any,
-    config: RequestConfig = {}
-  ) => {
-    config.headers = {
-      ...config.headers,
-      ...this.getCommonHeaders()
-    };
-
-    return this.http
-      .patch<T>(url, data, config)
-      .catch(statusToError) as Promise<T>;
-  };
-
-  protected put = <T>(url: string, data?: any, config: RequestConfig = {}) => {
-    config.headers = {
-      ...config.headers,
-      ...this.getCommonHeaders()
-    };
-
-    return this.http
-      .put<T>(url, data, config)
-      .catch(statusToError) as Promise<T>;
   };
 }

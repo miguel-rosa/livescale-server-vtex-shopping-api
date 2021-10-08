@@ -35,6 +35,7 @@ declare global {
     basketId: string;
     itemId: string;
     catalogId: number;
+    categoryId: number;
   }
 
   interface CustomContext {

@@ -1,40 +1,72 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { FormattedMessage } from "react-intl";
 import {
   Layout,
   PageHeader,
   PageBlock,
-  InputPassword,
-  Input,
   Button,
-  Toggle
+  Dropdown
 } from "vtex.styleguide";
 
-const LiveScaleAuthCredentials: React.FC = () => (
-  <Layout pageHeader={<PageHeader title="Live Scale" />}>
-    <PageBlock variation="full">
-      <section className="pb4">
-        <InputPassword label="Input" helpText="Input" token />
-      </section>
-      <section className="pb4">
-        <Input label="Input" token />
-      </section>
-      <section className="pb4">
-        <InputPassword label="Input" helpText="Input" token />
-      </section>
-      <section className="pv4">
-        <Toggle semantic label="Input" size="large" helpText="Input" />
-      </section>
-      <section className="pv4">
-        <Toggle semantic label="Input" size="large" helpText="Input" />
-      </section>
+import { salesChannelsList } from "../../api";
 
-      <section className="pt4">
-        <Button variation="primary" onClick={() => {}}>
-          Input
-        </Button>
-      </section>
-    </PageBlock>
-  </Layout>
-);
+type TCurrencyCode = {
+  label: string;
+  value: string;
+};
+
+type CurrencyCodeResponse = {
+  Name: string;
+  CurrencyCode: string;
+  CurrencySymbol: string;
+};
+
+const LiveScaleAuthCredentials: React.FC = () => {
+  const [currencyCodes, setCurrencyCodes] = useState<TCurrencyCode[]>([]);
+  const [selectedCurrencyCode, setSelectedCurrencyCode] = useState<string>();
+
+  const getCurrencyCodes = async () => {
+    const { url, options } = salesChannelsList();
+    const data = await fetch(url, options);
+    const response: CurrencyCodeResponse[] = await data.json();
+    const formattedResponse: TCurrencyCode[] = response.map(
+      ({ CurrencyCode, CurrencySymbol, Name }) => ({
+        value: CurrencyCode,
+        label: `${Name}: ${CurrencySymbol} ${CurrencyCode}`
+      })
+    );
+    setCurrencyCodes(formattedResponse);
+    setSelectedCurrencyCode(formattedResponse[0].value);
+  };
+
+  useEffect(() => {
+    getCurrencyCodes();
+  }, [getCurrencyCodes]);
+
+  return (
+    <Layout pageHeader={<PageHeader title="Live Scale" />}>
+      <PageBlock variation="full">
+        <section className="pb4">
+          <Dropdown
+            label={
+              <FormattedMessage id="admin/livescale-server-vtex-shopping-api-admin.currency-code-dropdown-title" />
+            }
+            placeholder={
+              <FormattedMessage id="admin/livescale-server-vtex-shopping-api-admin.currency-code-dropdown-placeholder" />
+            }
+            options={currencyCodes}
+            value={selectedCurrencyCode}
+            onChange={(_: any, value: string) => setSelectedCurrencyCode(value)}
+          />
+        </section>
+        <section className="pt4">
+          <Button variation="primary" onClick={() => {}}>
+            <FormattedMessage id="admin/livescale-server-vtex-shopping-api-admin.submit-button" />
+          </Button>
+        </section>
+      </PageBlock>
+    </Layout>
+  );
+};
 
 export { LiveScaleAuthCredentials };

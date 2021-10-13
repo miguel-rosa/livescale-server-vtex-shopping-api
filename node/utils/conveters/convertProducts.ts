@@ -1,6 +1,6 @@
 import { SearchProduct } from "../../typings/clients";
 
-export default (products: SearchProduct[]) =>
+export default (products: SearchProduct[], currencyCode: string) =>
   products.map(product => ({
     id: product.productId,
     name: product.productName,
@@ -21,7 +21,7 @@ export default (products: SearchProduct[]) =>
         amount: variation.sellers.find(item => item.sellerDefault)
           ?.commertialOffer.Price,
         compare_at_amount: undefined,
-        currency: "string",
+        currency: currencyCode,
         unit: "single",
         unit_measure: "each",
         amount_per_unit: 1

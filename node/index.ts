@@ -1,4 +1,4 @@
-import type { ClientsConfig } from "@vtex/api";
+import type { ClientsConfig, ParamsContext } from "@vtex/api";
 import { LRUCache, method, Service } from "@vtex/api";
 
 import { Clients } from "./clients";
@@ -7,12 +7,15 @@ import validateBasketId from "./middlewares/validateBasketId";
 import validateItemId from "./middlewares/validateItemId";
 import validateCatalogId from "./middlewares/validateCatalogId";
 import validateCategoryId from "./middlewares/validateCategoryId";
+import validateHostWhitelist from "./middlewares/validateHostWhitelist";
 
 import Baskets from "./middlewares/baskets";
 import Catalogs from "./middlewares/catalogs";
 import Categories from "./middlewares/categories";
 import Products from "./middlewares/products";
 import SalesChannels from "./middlewares/salesChannels";
+
+import { queries, mutations } from "./resolvers";
 
 const TIMEOUT_MS = 800;
 
@@ -39,7 +42,7 @@ const categories = new Categories();
 const products = new Products();
 const salesChannels = new SalesChannels();
 
-export default new Service({
+export default new Service<Clients, State, ParamsContext>({
   clients,
   routes: {
     createBaskets: method({
@@ -53,16 +56,31 @@ export default new Service({
       DELETE: [validateBasketId, validateItemId, baskets.deleteItem]
     }),
     catalogsList: method({
-      GET: catalogs.index
+      GET: [validateHostWhitelist, catalogs.index]
     }),
     categoriesList: method({
-      GET: [validateCatalogId, categories.index]
+      GET: [validateHostWhitelist, validateCatalogId, categories.index]
     }),
     productsList: method({
-      GET: [validateCatalogId, validateCategoryId, products.index]
+      GET: [
+        validateHostWhitelist,
+        validateCatalogId,
+        validateCategoryId,
+        products.index
+      ]
     }),
     salesChannelsList: method({
-      GET: salesChannels.index
+      GET: [validateHostWhitelist, salesChannels.index]
     })
+  },
+  graphql: {
+    resolvers: {
+      Query: {
+        ...queries
+      },
+      Mutation: {
+        ...mutations
+      }
+    }
   }
 });

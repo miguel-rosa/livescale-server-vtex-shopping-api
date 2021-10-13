@@ -2,5 +2,7 @@
   "admin/livescale-server-vtex-shopping-api-admin.menu-title": "admin/livescale-server-vtex-shopping-api-admin.menu-title",
   "admin/livescale-server-vtex-shopping-api-admin.currency-code-dropdown-label": "admin/livescale-server-vtex-shopping-api-admin.currency-code-dropdown-label",
   "admin/livescale-server-vtex-shopping-api-admin.currency-code-dropdown-placeholder": "admin/livescale-server-vtex-shopping-api-admin.currency-code-dropdown-placeholder",
+  "admin/livescale-server-vtex-shopping-api-admin.save-settings-failure": "admin/livescale-server-vtex-shopping-api-admin.save-settings-failure",
+  "admin/livescale-server-vtex-shopping-api-admin.save-settings-success": "admin/livescale-server-vtex-shopping-api-admin.save-settings-success",
   "admin/livescale-server-vtex-shopping-api-admin.submit-button": "admin/livescale-server-vtex-shopping-api-admin.submit-button"
 }

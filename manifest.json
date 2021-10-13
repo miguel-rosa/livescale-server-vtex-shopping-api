@@ -1,6 +1,6 @@
 {
-  "name": "livescale-server-vtex-shopping-api",
-  "vendor": "motorolatemplateeu",
+  "name": "admin-vbase-example",
+  "vendor": "vtex",
   "version": "0.0.1",
   "title": "Livescale VTEX Server Shopping API",
   "description": "Implementation of basic routes for livescale API",
@@ -15,7 +15,8 @@
     "docs": "0.x",
     "admin": "0.x",
     "react": "3.x",
-    "messages": "1.x"
+    "messages": "1.x",
+    "graphql": "1.x"
   },
   "scripts": {
     "prereleasy": "bash lint.sh"
@@ -41,6 +42,12 @@
     },
     {
       "name": "colossus-write-logs"
+    },
+    {
+      "name": "vbase-read-write"
+    },
+    {
+      "name": "graphql-query"
     }
   ],
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"

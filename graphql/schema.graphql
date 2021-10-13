@@ -1,0 +1,7 @@
+type Query {
+  currencyCode: String
+}
+
+type Mutation {
+  saveCurrencyCode(currencyCode: String): String
+}

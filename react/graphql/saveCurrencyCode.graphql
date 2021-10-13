@@ -1,0 +1,3 @@
+mutation saveCurrencyCode($currencyCode: String) {
+  saveCurrencyCode(currencyCode: $currencyCode)
+}

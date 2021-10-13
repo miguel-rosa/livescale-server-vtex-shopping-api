@@ -1,3 +1,4 @@
 {
-  "seller": "motorolaeudr"
+  "seller": "motorolaeudr",
+  "whitelistHosts": ["migueldev--motorolafr.myvtex.com"]
 }

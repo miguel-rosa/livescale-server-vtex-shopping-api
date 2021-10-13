@@ -11,4 +11,17 @@ export default class SalesChannels {
 
     await next();
   }
+
+  public async show(ctx: Context, next: () => Promise<any>) {
+    const {
+      clients: { search: searchClient }
+    } = ctx;
+
+    const salesChannels = await searchClient.salesChannels();
+    ctx.state.fallbackCurrencyCode = convertSalesChannels(
+      salesChannels
+    )[0].CurrencyCode;
+
+    await next();
+  }
 }

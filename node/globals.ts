@@ -36,6 +36,7 @@ declare global {
     itemId: string;
     catalogId: number;
     categoryId: number;
+    fallbackCurrencyCode: string;
   }
 
   interface CustomContext {

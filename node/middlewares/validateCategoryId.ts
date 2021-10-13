@@ -15,7 +15,7 @@ export default async function validateCatalogId(
   const { categoryId } = params;
 
   if (!categoryId) {
-    throw new UserInputError("categoryId ID is missing"); // Wrapper for a Bad Request (400) HTTP Error. Check others in https://github.com/vtex/node-vtex-api/blob/fd6139349de4e68825b1074f1959dd8d0c8f4d5b/src/errors/index.ts
+    throw new UserInputError("Category ID is missing");
   }
 
   ctx.state.categoryId = Number(serializeParams(categoryId));

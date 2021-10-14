@@ -93,11 +93,18 @@ export default class Search extends JanusClient {
     from = 0,
     to = 9,
     map = "",
+    salesChannel = "",
+    hideUnavailableItems = true,
     completeSpecifications = true
   }: SearchArgs) => {
     const sanitizedQuery = encodeURIComponent(
       this.searchEncodeURI(decodeURIComponent(query || "").trim())
     );
+    if (hideUnavailableItems) {
+      const segmentData = (this.context as CustomIOContext).segment;
+      salesChannel = segmentData?.channel.toString() ?? "";
+    }
+
     let url = `${this.base}/pub/products/search/${sanitizedQuery}?`;
     if (catalogId && categoryId && !query) {
       url += `&fq=C:/${catalogId}/${categoryId}`;
@@ -113,6 +120,9 @@ export default class Search extends JanusClient {
     }
     if (to != null && to > -1) {
       url += `&_to=${to}`;
+    }
+    if (salesChannel) {
+      url += `&fq=isAvailablePerSalesChannel_${salesChannel}:1`;
     }
     if (completeSpecifications) {
       url = this.addCompleteSpecifications(url);

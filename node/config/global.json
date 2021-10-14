@@ -1,4 +1,7 @@
 {
   "seller": "motorolaeudr",
-  "whitelistHosts": ["migueldev--motorolafr.myvtex.com"]
+  "whitelistHosts": [
+    "livescale--motorolafr.myvtex.com",
+    "graphql-api.livescale.tv"
+  ]
 }

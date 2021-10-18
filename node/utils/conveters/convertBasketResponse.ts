@@ -1,7 +1,7 @@
 export default (orderForm: OrderForm, host: string) => ({
   id: orderForm.orderFormId,
   cart_url: `https://${host}/checkout/?orderFormId=${orderForm.orderFormId}#/cart`,
-  items: orderForm.items.map((basketItem: any) => ({
+  items: orderForm.items?.map((basketItem: any) => ({
     sku: basketItem.id,
     quantity: basketItem.quantity,
     price: {

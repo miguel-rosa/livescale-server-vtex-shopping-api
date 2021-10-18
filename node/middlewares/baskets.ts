@@ -24,14 +24,18 @@ export default class Baskets {
       data: { orderFormId }
     } = newOrderFrom;
 
-    const convertedItems = convertBasketItem(body);
+    if (Object.keys(body).length !== 0) {
+      const convertedItems = convertBasketItem(body);
 
-    const updatedOrderForm = await checkoutClient.addItem(
-      orderFormId,
-      convertedItems
-    );
+      const updatedOrderForm = await checkoutClient.addItem(
+        orderFormId,
+        convertedItems
+      );
 
-    ctx.body = convertBasketResponse(updatedOrderForm, host);
+      ctx.body = convertBasketResponse(updatedOrderForm, host);
+    } else {
+      ctx.body = convertBasketResponse(newOrderFrom.data, host);
+    }
 
     await next();
   }

@@ -1,6 +1,6 @@
 {
-  "name": "admin-vbase-example",
-  "vendor": "vtex",
+  "name": "livescale-vtex",
+  "vendor": "motorolatempleteeu",
   "version": "0.0.1",
   "title": "Livescale VTEX Server Shopping API",
   "description": "Implementation of basic routes for livescale API",

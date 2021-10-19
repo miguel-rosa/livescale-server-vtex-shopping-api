@@ -39,7 +39,9 @@ export default class Products {
       ctx.state.fallbackCurrencyCode = currencyCode;
     }
 
-    ctx.body = convertProducts(products, ctx.state.fallbackCurrencyCode);
+    ctx.body = convertProducts(products, ctx.state.fallbackCurrencyCode).filter(
+      product => product.variants.length > 0
+    );
 
     await next();
   }

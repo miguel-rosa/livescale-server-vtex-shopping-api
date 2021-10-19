@@ -114,4 +114,15 @@ export default class Baskets {
 
     await next();
   }
+
+  public async show(ctx: Context, next: () => Promise<any>) {
+    const {
+      state: { basketId },
+      clients: { checkout: checkoutClient },
+      host
+    } = ctx;
+    const orderForm = await checkoutClient.orderForm(basketId);
+    ctx.body = convertBasketResponse(orderForm, host);
+    await next();
+  }
 }

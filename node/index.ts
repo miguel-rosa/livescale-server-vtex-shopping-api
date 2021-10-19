@@ -1,5 +1,9 @@
 import type { ClientsConfig, ParamsContext } from "@vtex/api";
-import { LRUCache, method, Service } from "@vtex/api";
+import {
+  // LRUCache,
+  method,
+  Service
+} from "@vtex/api";
 
 import { Clients } from "./clients";
 
@@ -19,9 +23,9 @@ import { queries, mutations } from "./resolvers";
 
 const TIMEOUT_MS = 800;
 
-const memoryCache = new LRUCache<string, any>({ max: 5000 });
+// const memoryCache = new LRUCache<string, any>({ max: 5000 });
 
-metrics.trackCache("status", memoryCache);
+// metrics.trackCache("status", memoryCache);
 
 const clients: ClientsConfig<Clients> = {
   implementation: Clients,
@@ -29,10 +33,11 @@ const clients: ClientsConfig<Clients> = {
     default: {
       retries: 20,
       timeout: TIMEOUT_MS
-    },
-    status: {
-      memoryCache
     }
+    // ,
+    // status: {
+    //   memoryCache
+    // }
   }
 };
 
@@ -50,6 +55,9 @@ export default new Service<Clients, State, ParamsContext>({
     }),
     updateBaskets: method({
       POST: [validateBasketId, baskets.update]
+    }),
+    listBaskets: method({
+      GET: [validateBasketId, baskets.show]
     }),
     updateItemBaskets: method({
       PUT: [validateBasketId, validateItemId, baskets.updateItem],

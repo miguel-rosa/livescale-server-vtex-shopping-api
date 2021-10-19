@@ -14,6 +14,10 @@
       "path": "/_v/baskets/:basketId/items",
       "public": true
     },
+    "listBaskets": {
+      "path": "/_v/baskets/:basketId",
+      "public": true
+    },
     "updateItemBaskets": {
       "path": "/_v/baskets/:basketId/items/:itemId",
       "public": true

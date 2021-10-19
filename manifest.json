@@ -1,6 +1,6 @@
 {
   "name": "livescale-vtex",
-  "vendor": "motorolatempleteeu",
+  "vendor": "motorolatemplateeu",
   "version": "0.1.0",
   "title": "Livescale VTEX Server Shopping API",
   "description": "Implementation of basic routes for livescale API",

@@ -6,19 +6,19 @@
   "maxReplicas": 4,
   "workers": 1,
   "routes": {
-    "createBaskets": {
+    "basketsCreate": {
       "path": "/_v/baskets",
       "public": true
     },
-    "updateBaskets": {
+    "basketsUpdate": {
       "path": "/_v/baskets/:basketId/items",
       "public": true
     },
-    "listBaskets": {
+    "basketsList": {
       "path": "/_v/baskets/:basketId",
       "public": true
     },
-    "updateItemBaskets": {
+    "basketsUpdateItem": {
       "path": "/_v/baskets/:basketId/items/:itemId",
       "public": true
     },
